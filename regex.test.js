@@ -1,107 +1,61 @@
-/* Write a function to do the division operation without using the built-in division*/
+"use strict";
 
-function division(number, dividedBy) {
-  // Write you logic here.
-  let count = 0;
-  function divisionOperation(number, dividedBy) {
-    if (dividedBy == 0) {
-      return 0;
-    }
-    if (number - dividedBy >= dividedBy || number - dividedBy == 0) {
-      count += 1;
-      return divisionOperation(number - dividedBy, dividedBy);
-    } else {
-      return;
-    }
+/* Write a function that take a string and return true if the string only contain uppercase and lowercase
+characters (no numbers and symbols) and it should end with capital A else return false */
+
+function capitalA(s) {
+  // Add your logic.
+  let numericalTest = /\d/g.test(s);
+  let capitalTest = /A$/.test(s);
+  if (numericalTest == false && capitalTest == true) {
+    return true;
+  } else {
+    return false;
   }
-  divisionOperation(number, dividedBy);
-  return count;
 }
 
-/* Write a function that implement Math.pow(x,n) but using recursion
-Example:
-pow(2,4) = 16
+/* Write a function that take a string and return true if the the sting is following the emails pattern
+which end with io (example@example.io) */
+
+function ioEmail(email) {
+  return /^[\w]+@([\w])+[\w](.io)$/g.test(email);
+}
+
+/* You have a text that contain image names with their extension you need to write a function to 
+find all images in that text and return their names and extension in an array 
+required extension are jpg, jpeg and png.
 */
 
-function pow(x, n) {
-  // Write you logic here.
-  if (x == 0) {
-    return 1;
-  } else if (n == 1) {
-    return x;
-  } else if (n == 0) {
-    return 1;
-  } else {
-    return x * pow(x, n - 1);
-  }
-}
-
-/* The Fibonacci Series is a numeric series starting with the integers 0 and 1. In this series,
-the next integer is determined by summing the previous two. This gives us:
-0, 1, 1, 2, 3, 5, 8, 13, ...
-Write a function that take n as parameter and return the nth element in the Fibonacci Series
-Example: n = 4 ==> 3, n= 0 ==> 0, n = 3 ==> 2 */
-
-function fibonacci(n) {
-  // Write you logic here.
-  if (n == 0) {
-    return 0;
-  } else if (n == 1) {
-    return 1;
-  } else {
-    return fibonacci(n - 1) + fibonacci(n - 2);
-  }
-}
-
-/* Optional 
-The set [1, 2, 3, ..., n] contains a total of n! unique permutations.
-By listing and labeling all of the permutations in order, we get the following sequence for n = 3:
-"123"
-"132"
-"213"
-"231"
-"312"
-"321"
-Given n and k, return the kth permutation sequence.
-Example: 
-Input: n = 3, k = 3
-Output: ["123", "132", "213", "231", "312", "321"] */
-
-function permutations(n, k) {
-  let arr = [];
-  // Write you logic here.
+function imagesSearcher(text) {
+  let splittedText = text.split(" ");
+  let regex = /([\w])+(.jpeg|.jpg|.png)$/g;
+  let arr = splittedText.filter((ele) => regex.test(ele));
   return arr;
 }
 
-describe("Test division", () => {
-  test("Return the division result", () => {
-    expect(division(10, 2)).toStrictEqual(5);
-    expect(division(10, 0)).toStrictEqual(0);
-    expect(division(0, 10)).toStrictEqual(0);
+describe("Test capitalA", () => {
+  test("It should return true if the input has uppercase and lowercase characters (no numbers and symbols) and it should end with capital A else return false ", () => {
+    expect(capitalA("Hello world A")).toStrictEqual(true);
+
+    expect(capitalA("Hello world")).toStrictEqual(false);
+
+    expect(capitalA("Hello world a")).toStrictEqual(false);
   });
 });
 
-describe("Test pow", () => {
-  test("It should work as Math.pow(x,n)", () => {
-    expect(pow(10, 2)).toStrictEqual(100);
-    expect(pow(10, 0)).toStrictEqual(1);
-    expect(pow(0, 0)).toStrictEqual(1);
+describe("Test ioEmail", () => {
+  test("It should return true if the input is in email format that end with .io", () => {
+    expect(ioEmail("example@example.io")).toStrictEqual(true);
+    expect(ioEmail("ex@ample@example.io")).toStrictEqual(false);
+    expect(ioEmail("ex.ample@example.io")).toStrictEqual(false);
+    expect(ioEmail("example@example.gmail")).toStrictEqual(false);
   });
 });
 
-describe("Test fibonacci", () => {
-  test("It should implement fibonacci series logic", () => {
-    expect(fibonacci(0)).toStrictEqual(0);
-    expect(fibonacci(1)).toStrictEqual(1);
-    expect(fibonacci(2)).toStrictEqual(1);
-    expect(fibonacci(3)).toStrictEqual(2);
-    expect(fibonacci(4)).toStrictEqual(3);
-  });
-});
-
-describe.skip("Test permutations", () => {
-  test("It should return a list of possible combinations", () => {
-    expect(permutations(3, 3)).toStrictEqual(["123", "132", "213", "231", "312", "321"]);
-    expect(permutations(3, 0)).toStrictEqual([]);
+describe("Test imagesSearcher", () => {
+  test("It should return all images names that end with jpg, jpeg and png extention", () => {
+    expect(imagesSearcher("Lorem ipsum dolor sit amet, consectetur adipiscing elit, cat.png sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dog.jpg Ut enim ad minim veniam, quis nostrud exercitation ullamco cow.jpeg laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")).toStrictEqual(["cat.png", "dog.jpg", "cow.jpeg"]);
+    expect(imagesSearcher("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")).toStrictEqual([]);
+    expect(imagesSearcher("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. horse.gif Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore dolphin.pdf eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa mouse.tiff qui officia deserunt mollit anim id est laborum.")).toStrictEqual([]);
   });
 });
